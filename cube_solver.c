@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-
+//printf("\n:");scanf("%d",&cont); acts as a pause between loops preventing infinite loops so just enter any random integer when you encounter this statement
 char top[3][3]={
 	'o','b','g',
 	'b','w','y',
