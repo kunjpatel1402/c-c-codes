@@ -4,29 +4,29 @@
 void check_cube(void);
 
 char top[3][3] = {
-	'g','y','b',
-	'o','w','y',
-	'b','w','o'
+	'w','y','y',
+	'g','w','y',
+	'y','b','r'
 },front[3][3] = {
-	'r','o','w',
-	'w','r','g',
-	'o','r','o'	
+	'o','r','g',
+	'o','g','r',
+	'r','w','y'	
 },rear[3][3] = {
-	'y','g','r',
-	'r','o','b',
-	'y','w','y'
+	'r','o','r',
+	'y','b','o',
+	'w','b','w'
 },bottom[3][3] = {
-	'g','g','g',
-	'w','y','o',
-	'o','g','g'
+	'g','g','o',
+	'b','y','w',
+	'o','y','o'
 },left[3][3] = {
-	'w','y','w',
-	'r','g','b',
-	'b','r','y'
+	'b','r','g',
+	'w','o','g',
+	'g','o','w'
 },right[3][3] = {
-	'b','b','r',
-	'o','b','y',
-	'w','b','r'
+	'y','r','b',
+	'w','r','g',
+	'b','b','b'
 };
 
 struct side{
@@ -80,6 +80,24 @@ void print_cube(){
 }
 
 void turn_clockwise(struct side curr_side){
+    if ( *curr_side.face[1][1] == top[1][1]){
+        printf ("\n turn top face clockwise");
+    }
+    else if ( *curr_side.face[1][1] == front[1][1]){
+        printf ("\n turn front face clockwise");
+    }
+    else if ( *curr_side.face[1][1] == left[1][1]){
+        printf ("\n turn left face clockwise");
+    }
+    else if ( *curr_side.face[1][1] == rear[1][1]){
+        printf ("\n turn rear face clockwise");
+    }
+    else if ( *curr_side.face[1][1] == right[1][1]){
+        printf ("\n turn right face clockwise");
+    }
+    else if ( *curr_side.face[1][1] == bottom[1][1]){
+        printf ("\n turn bottom face clockwise");
+    }
     char temp[]={*curr_side.face[0][0],*curr_side.face[0][2],*curr_side.face[2][2],*curr_side.face[2][0]};
         *curr_side.face[0][0] = temp[3];
         *curr_side.face[0][2] = temp[0];
@@ -93,7 +111,7 @@ void turn_clockwise(struct side curr_side){
         *curr_side.face[1][2] = temp[0];
         *curr_side.face[2][1] = temp[1];
         *curr_side.face[1][0] = temp[2];
-        printf ("\n switching faces");
+        //printf ("\n switching faces");
         for(int i = 0; i < 3; i++){
             temp[0] = *curr_side.rear_face[0][i];
             temp[1] = *curr_side.right_face[0][i];
@@ -108,6 +126,24 @@ void turn_clockwise(struct side curr_side){
 }
 
 void turn_anticlockwise(struct side curr_side){
+    if ( *curr_side.face[1][1] == top[1][1]){
+        printf ("\n turn top face anticlockwise");
+    }
+    else if ( *curr_side.face[1][1] == front[1][1]){
+        printf ("\n turn front face anticlockwise");
+    }
+    else if ( *curr_side.face[1][1] == left[1][1]){
+        printf ("\n turn left face anticlockwise");
+    }
+    else if ( *curr_side.face[1][1] == rear[1][1]){
+        printf ("\n turn rear face anticlockwise");
+    }
+    else if ( *curr_side.face[1][1] == right[1][1]){
+        printf ("\n turn right face anticlockwise");
+    }
+    else if ( *curr_side.face[1][1] == bottom[1][1]){
+        printf ("\n turn bottom face anticlockwise");
+    }
     char temp[]={*curr_side.face[0][0],*curr_side.face[0][2],*curr_side.face[2][2],*curr_side.face[2][0]};
         *curr_side.face[0][0] = temp[1];
         *curr_side.face[0][2] = temp[2];
@@ -135,6 +171,125 @@ void turn_anticlockwise(struct side curr_side){
         check_cube();   
 }
 
+void b1(struct side curr_side){
+    if ( *curr_side.face[2][1] == *curr_side.face[1][1]){
+        turn_clockwise(curr_side);
+        turn_clockwise(curr_side);
+    }
+    else if ( *curr_side.face[2][1] == *curr_side.right_face[1][1]){
+        turn_clockwise(*curr_side.side_front);
+        turn_clockwise(*curr_side.side_right);
+        turn_clockwise(*curr_side.side_right);
+    }
+    else if ( *curr_side.face[2][1] == *curr_side.bottom_face[1][1]){
+        turn_clockwise(*curr_side.side_front);
+        turn_clockwise(*curr_side.side_front);
+        turn_clockwise(*curr_side.side_bottom);
+        turn_clockwise(*curr_side.side_bottom);
+    }
+    else if ( *curr_side.face[2][1] == *curr_side.left_face[1][1]){
+        turn_anticlockwise(*curr_side.side_front);
+        turn_clockwise(*curr_side.side_bottom);
+        turn_clockwise(*curr_side.side_bottom);
+    }
+
+}
+void a1 (struct side curr_side){
+    turn_clockwise(curr_side);
+    turn_clockwise(*curr_side.side_right);
+    turn_anticlockwise(curr_side);
+    turn_anticlockwise(*curr_side.side_right);
+    turn_anticlockwise(*curr_side.side_right);
+    turn_anticlockwise(*curr_side.side_front);
+    turn_clockwise(*curr_side.side_right);
+    b1(curr_side);
+}
+void a2 (struct side curr_side){
+    turn_clockwise(*curr_side.side_left);
+    turn_clockwise(*curr_side.side_front);
+    turn_anticlockwise(*curr_side.side_left);
+    b1(curr_side);
+}
+void a3 (struct side curr_side){
+    turn_clockwise(*curr_side.side_front);
+    turn_clockwise(*curr_side.side_right);
+    turn_anticlockwise(curr_side);
+    turn_anticlockwise(*curr_side.side_right);
+    turn_clockwise(curr_side);
+    turn_clockwise(curr_side);
+    b1(curr_side);
+}
+void a4 (struct side curr_side){
+    turn_anticlockwise(*curr_side.side_right);
+    turn_anticlockwise(*curr_side.side_front);
+    turn_clockwise(*curr_side.side_right);
+    b1(curr_side);
+}
+void make_cross(){
+    if ( front[0][1] == top[1][1] ){
+        a1(front_side);
+    }
+    if ( front[1][0] == top[1][1] ){
+        a2(front_side);
+    }
+    if ( front[2][1] == top[1][1] ){
+        a3(front_side);
+    }
+    if ( front[1][2] == top[1][1] ){
+        a4(front_side);
+
+    }if ( left[0][1] == top[1][1] ){
+        a1(left_side);
+    }
+    if ( left[1][0] == top[1][1] ){
+        a2(left_side);
+    }
+    if ( left[2][1] == top[1][1] ){
+        a3(left_side);
+    }
+    if ( left[1][2] == top[1][1] ){
+        a4(left_side);
+    }
+    
+    if ( rear[0][1] == top[1][1] ){
+        a1(rear_side);
+    }
+    if ( rear[1][0] == top[1][1] ){
+        a2(rear_side);
+    }
+    if ( rear[2][1] == top[1][1] ){
+        a3(rear_side);
+    }
+    if ( rear[1][2] == top[1][1] ){
+        a4(rear_side);
+    }
+
+    if ( right[0][1] == top[1][1] ){
+        a1(right_side);
+    }
+    if ( right[1][0] == top[1][1] ){
+        a2(right_side);
+    }
+    if ( right[2][1] == top[1][1] ){
+        a3(right_side);
+    }
+    if ( right[1][2] == top[1][1] ){
+        a4(right_side);
+    }
+
+    if ( bottom[0][1] == top[1][1] ){
+        b1(front_side);
+    }
+    if ( bottom[1][0] == top[1][1] ){
+        b1(left_side);
+    }
+    if ( bottom[2][1] == top[1][1] ){
+        b1(rear_side);
+    }
+    if ( bottom[1][2] == top[1][1] ){
+        b1(right_side);
+    }
+}
 void check_cube(){
 	int r=0,w=0,g=0,b=0,o=0,y=0;
 	for(int i=0;i<3;i++){
@@ -487,8 +642,10 @@ int main(){
     bottom_side.side_bottom = &top_side;
     //-------------------------------------------algorithm-------------------------------------------------------------------------------------------------------------------
     //turn_anticlockwise(*top_side.side_front);
+    check_cube();
     printf("\n cube");
     print_cube();
+    make_cross();
     printf("\n side");
     print_side(top_side);
     printf("\n side");
