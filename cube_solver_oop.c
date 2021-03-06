@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 void check_cube(void);
-
+//incompelete
 char top[3][3] = {
 	'w','y','y',
 	'g','w','y',
